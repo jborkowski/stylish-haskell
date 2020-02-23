@@ -5,14 +5,14 @@ module Language.Haskell.Stylish.Step.Imports.Tests
 
 
 --------------------------------------------------------------------------------
-import           Test.Framework                 (Test, testGroup)
-import           Test.Framework.Providers.HUnit (testCase)
-import           Test.HUnit                     (Assertion, (@=?))
+import Test.Framework (Test, testGroup)
+import Test.Framework.Providers.HUnit (testCase)
+import Test.HUnit (Assertion, (@=?))
 
 
 --------------------------------------------------------------------------------
-import           Language.Haskell.Stylish.Step.Imports
-import           Language.Haskell.Stylish.Tests.Util
+import Language.Haskell.Stylish.Step.Imports
+import Language.Haskell.Stylish.Tests.Util
 
 
 
@@ -59,6 +59,7 @@ tests = testGroup "Language.Haskell.Stylish.Step.Imports.Tests"
     , testCase "case 25" case25
     , testCase "case 26 (issue 185)" case26
     , testCase "case 27" case27
+    , testCase "case 28" case28
     ]
 
 
@@ -812,4 +813,18 @@ case27 = expected @=? testStep (step Nothing $ fromImportAlign Global) input
         , "import           Herp.Derp.Internals hiding (foo)"
         , ""
         , "herp = putStrLn \"import Hello world\""
+        ]
+
+--------------------------------------------------------------------------------
+case28 :: Assertion
+case28 = expected
+    @=? testStep (step Nothing options ) input'
+  where
+    options = fromImportAlign Global
+    input' = unlines
+        [ "import Data.List as List (concat, foldr, foldr)"
+        , "import Data.List as List (head)"
+        ]
+    expected = unlines
+        [ "import           Data.List as List (concat, foldr, head)"
         ]

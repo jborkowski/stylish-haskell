@@ -91,6 +91,12 @@ data LongListAlign
 
 
 --------------------------------------------------------------------------------
+mergeSameImports :: (Ord l) => [H.ImportDecl l] -> [H.ImportDecl l]
+mergeSameImports = undefined 
+-- remove duplicate and merge...``
+
+  
+--------------------------------------------------------------------------------
 
 modifyImportSpecs :: ([H.ImportSpec l] -> [H.ImportSpec l])
                   -> H.ImportDecl l -> H.ImportDecl l
@@ -110,7 +116,7 @@ importName :: H.ImportDecl l -> String
 importName i = let (H.ModuleName _ n) = H.importModule i in n
 
 importPackage :: H.ImportDecl l -> Maybe String
-importPackage i = H.importPkg i
+importPackage = H.importPkg
 
 
 --------------------------------------------------------------------------------
