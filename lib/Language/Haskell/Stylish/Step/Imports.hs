@@ -33,7 +33,7 @@ import           Language.Haskell.Stylish.Block
 import           Language.Haskell.Stylish.Editor
 import           Language.Haskell.Stylish.Step
 import           Language.Haskell.Stylish.Util
-
+import           Debug.Trace -- for test purpose
 --------------------------------------------------------------------------------
 data Options = Options
     { importAlign    :: ImportAlign
@@ -92,10 +92,10 @@ data LongListAlign
 
 --------------------------------------------------------------------------------
 mergeSameImports :: (Ord l) => [H.ImportDecl l] -> [H.ImportDecl l]
-mergeSameImports = undefined 
+mergeSameImports = undefined
 -- remove duplicate and merge...``
 
-  
+
 --------------------------------------------------------------------------------
 
 modifyImportSpecs :: ([H.ImportSpec l] -> [H.ImportSpec l])
@@ -441,7 +441,8 @@ step' columns align ls (module', _) = applyChanges
   where
     imps    = map (sortImportSpecs . deduplicateImportSpecs) $
               imports $ fmap linesFromSrcSpan module'
-    longest = longestImport imps
+
+    longest = trace (show imps) longestImport imps
     groups  = groupAdjacent [(H.ann i, i) | i <- imps]
 
     fileAlign = case importAlign align of
